@@ -1,0 +1,53 @@
+.test {
+    border: 1px solid white;
+    width: 50%;
+    height: 100%;
+}
+
+.logos-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+}
+
+.press-start {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.subtext {
+    font-size: 25px;
+}
+
+.home-login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-btn {
+    background-color: #2e111a;
+    font-family: 'Press Start 2P', cursive;
+    width: 40%;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    margin: 20px 0;
+}
+
+.login-btn:hover {
+    background: #3b1521;
+}
+
+.little {
+    font-size: 15px;
+}
+
+.google-login {
+    margin: 20px 0;
+}
