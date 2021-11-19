@@ -29,7 +29,7 @@ export default function Welcome() {
                       )
               })}
           </div>
-          <button className="continue press-start">Continue</button>
+          <Link className="continue-container" to="/feed"><button className="continue press-start">Continue</button></Link>
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/">Login</Link>
           <Link to="/profile">Perfil</Link>
