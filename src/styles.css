@@ -4,11 +4,17 @@
     height: 100%;
 }
 
+input:focus {
+    outline: none;
+}
+
 .logos-container {
     display: flex;
     flex-direction: column;
     width: 50%;
+    height: 450px;
     align-items: center;
+    justify-content: space-between;
 }
 
 .press-start {
@@ -37,16 +43,21 @@
 .login-btn {
     background-color: #2e111a;
     font-family: 'Press Start 2P', cursive;
-    width: 40%;
+    width: 100%;
     height: 40px;
     font-size: 15px;
     border: none;
     cursor: pointer;
-    margin: 20px 0;
 }
 
 .login-btn:hover {
     background: #3b1521;
+}
+
+.register-link {
+    width: 40%;
+    height: 40px;
+    margin: 20px 0;
 }
 
 .little {
@@ -86,6 +97,7 @@
 
 .pinky {
     background-color: #f50d5a;
+    border: 3px solid white;
 }
 
 .orange {
@@ -112,12 +124,12 @@
     background-color: #00da76;
     color: white;
     height: 35px;
-    width: 40%;
+    width: 100%;
 }
 
 .continue-container {
     margin-top: 25px;
-    width: 100%;
+    width: 40%;
 }
 
 button:hover {
@@ -228,4 +240,9 @@ button:hover {
     background-color: #2E132C;
     height: 1000px;
     border-top: 3px solid #592455;
+}
+
+.register-inputs {
+    width: 60%;
+    margin: 20px 0px;
 }

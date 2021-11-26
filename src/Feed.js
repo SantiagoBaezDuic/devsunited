@@ -1,7 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// import { db } from "./firebase";
+// import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 
 export default function Feed() {
+
+    // const testTweets = doc(db, `test-tweets/1`);
+
+    // function writeTweet() {
+    //     const tweetData = {
+    //         user: "randomuser",
+    //         text: "este es un tuit de prueba"
+    //     }
+    //     setDoc(testTweets, tweetData);
+    // }
+
     return (
         <>
             <header>
