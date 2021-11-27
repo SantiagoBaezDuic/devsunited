@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { colors } from "./config";
+import { colors } from "../Context/config";
 
 export default function Welcome() {
 

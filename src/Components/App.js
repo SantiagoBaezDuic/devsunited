@@ -1,5 +1,5 @@
-import './App.css';
-import './styles.css';
+import '../CSS/App.css';
+import '../CSS/styles.css';
 import Welcome from "./MainPage.js";
 import Unlogged from "./MainUnlogged.js";
 import Profile from './Profile.js';

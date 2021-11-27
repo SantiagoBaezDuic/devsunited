@@ -1,7 +1,5 @@
 .test {
     border: 1px solid white;
-    width: 50%;
-    height: 100%;
 }
 
 input:focus {
@@ -158,8 +156,16 @@ button:hover {
 .header-container {
     width: 50%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .profilepic {
@@ -186,9 +192,12 @@ button:hover {
     background-color: #2f112d;
     color: #B5467f;
     font-family: 'Press Start 2P', cursive;
+    font-size: 15px;
     width: 90%;
     height: 110px;
     display: flex;
+    padding: 7px;
+    outline: none;
 }
 
 .tweeter-first {
@@ -205,7 +214,7 @@ button:hover {
 
 .bar {
     background-color: #00da76;
-    width: 91%;
+    width: 0%;
     height: 3px;
 }
 
@@ -238,11 +247,143 @@ button:hover {
 
 .feed {
     background-color: #2E132C;
-    height: 1000px;
+    min-height: 800px;
     border-top: 3px solid #592455;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .register-inputs {
     width: 60%;
     margin: 20px 0px;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #F50D5A;
+    height: 30px;
+    width: 140px;
+    font-size: 12px;
+}
+
+.logout-text{
+    color: black;
+    text-decoration: none;
+}
+
+.back-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    color: white;
+    height: 30px;
+    width: 170px;
+    font-size: 12px;
+}
+
+.profile-general-container {
+    background-color: #150714;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-center {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-container {
+    width: 100%;
+    margin: 25px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-pic {
+    border-radius: 100%;
+    border: 4px solid yellow;
+}
+
+.username {
+    color: yellow;
+    font-size: 25px;
+}
+
+.profile-switch-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.profile-switch {
+    width: 100%;
+    display: flex;
+}
+
+.profile-posts {
+    background-color: #60265B;
+    width: 50%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-favs {
+    width: 50%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #60265B;
+}
+
+.switch-selected {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #60265B;
+    width: 50%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch-unselected {
+    font-family: 'Press Start 2P', cursive;
+    width: 50%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #60265B;
+}
+
+.profile-switch div:hover {
+    cursor: pointer;
+}
+
+.loading {
+    color: white;
+}
+
+.post {
+    color:white;
+    font-size: 15px;
+    line-height: 1.5;
+    font-family: 'Fira Code', monospace;
+    text-align: left;
+    border-bottom: 1px solid #592455;
+}
+
+.profilepic-link {
+    height: 54px;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { auth } from "./firebase";
+import { auth } from "../Context/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Register() {
