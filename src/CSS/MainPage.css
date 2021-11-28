@@ -1,0 +1,57 @@
+/* MainPage styles */
+
+.name {
+    font-family: 'Press Start 2P', cursive;
+    color: #f50d5a;
+}
+
+.cubes-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-cube {
+    border: 1px white;
+    height: 60px;
+    width: 60px;
+    cursor: pointer;
+}
+
+.pinky {
+    background-color: #f50d5a;
+    border: 3px solid white;
+}
+
+.orange {
+    background-color: #ff865c;
+}
+
+.yellow {
+    background-color: #ffea5c;
+}
+
+.green {
+    background-color: #00da76;
+}
+
+.cyan {
+    background-color: #0096ce;
+}
+
+.purple {
+    background-color: #800fff;
+}
+
+.continue-container {
+    margin-top: 25px;
+    width: 40%;
+}
+
+.continue {
+    background-color: #00da76;
+    color: white;
+    height: 35px;
+    width: 100%;
+}

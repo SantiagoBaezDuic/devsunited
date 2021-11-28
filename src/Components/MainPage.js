@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../Context/config";
+import "../CSS/MainPage.css";
+import "../CSS/Login.css";
 
 export default function Welcome() {
 

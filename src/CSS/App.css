@@ -1,37 +1,65 @@
+/* App styles */
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    text-align: center;
   }
-}
-
-.App-header {
-  background-image: linear-gradient(to bottom, #2E132C, #291127);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .App-header {
+    background-image: linear-gradient(to bottom, #2E132C, #291127);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
   }
-  to {
-    transform: rotate(360deg);
-  }
+
+/* App general styles */
+
+.profilepic {
+    border-radius: 100%;
+    border: 2px solid yellow;
+}
+
+input:focus {
+    outline: none;
+}
+
+.white {
+    color: white;
+}
+
+.press-start {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.subtext {
+    font-size: 25px;
+}
+
+.sub-subtext {
+    font-size: 15px;
+}
+
+.copyright {
+    margin-top: 100px;
+    font-family: 'Fira Code', monospace;
+    font-size: 15px;
+    color: #60265B;
+}
+
+.highlight {
+    color: #f50d5a;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.loading {
+    color: white;
 }

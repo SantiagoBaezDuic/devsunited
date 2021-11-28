@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AppContext } from "../Context/AppContext";
 import {Link} from "react-router-dom";
+import "../CSS/Profile.css";
 
 export default function Profile() {
+
+    const {posts, postFetch} = useContext(AppContext);
 
     const [showPosts, setShowPosts] = useState(true);
 
@@ -49,6 +53,32 @@ export default function Profile() {
                     </div>
                 </div>
                 <div className="feed">
+                {postFetch ? posts.map((object) => {
+                        return (
+                            <div className="post-card">
+                                <div className="post-pfp-container">
+                                    <img className="profilepic" height="45px" src="./img/ornacia.png" alt="" />
+                                </div>
+                                <div className="post-text-container">
+                                    <div className="post-username">
+                                        <span className="username-container">
+                                            {object.email}
+                                        </span>
+                                        <span className="post-time">
+                                            - 5 jun.
+                                        </span>
+                                    </div>
+                                    <div>
+                                        {object.body}
+                                    </div>
+                                    <div className="post-likes">
+                                        <img className="like-hollow-icon" height="17px" src="./img/Like-hollow.svg" alt="" />
+                                        <span className="likes-amount">100</span>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    }) : <p className="press-start loading">Posts are loading...</p>}
                     <Link to="/">Login</Link>
                 </div>
             </body>
