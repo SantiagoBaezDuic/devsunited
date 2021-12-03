@@ -15,7 +15,7 @@ export default function Login() {
           <p className="press-start subtext">Using your email and password.</p>
           <input className="username-input register-inputs" type="email" placeholder="yourname@email.com" />
           <input className="username-input register-inputs" type="password" placeholder="password" />
-          <Link class="register-link" to="/welcome"><button className="login-btn">SIGN IN</button></Link>
+          <Link className="register-link" to="/welcome"><button className="login-btn">SIGN IN</button></Link>
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/welcome">Logged</Link>
           <Link to="/">Unlogged</Link>

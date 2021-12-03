@@ -19,7 +19,7 @@ export default function Register() {
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
+        console.log("error " + errorCode + ", " + errorMessage);
   
     });
 }
@@ -44,7 +44,7 @@ export default function Register() {
           <p className="press-start subtext">Using your email and password.</p>
           <input value={email} onChange={handleUser} className="username-input register-inputs" type="email" placeholder="yourname@email.com" />
           <input value={password} onChange={handlePass} className="username-input register-inputs" type="password" placeholder="password" />
-          <Link class="register-link" to="/welcome"><button onClick={handleRegister} className="login-btn">SIGN UP</button></Link>
+          <Link className="register-link" to="/welcome"><button onClick={handleRegister} className="login-btn">SIGN UP</button></Link>
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/welcome">Logged</Link>
           <Link to="/">Unlogged</Link>

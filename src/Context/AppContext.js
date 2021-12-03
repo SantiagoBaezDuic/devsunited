@@ -5,6 +5,7 @@ export const AppContext = createContext();
 export default function AppProvider({ children }) {
     const [posts, setPosts] = useState([]);
     const [postFetch, setPostFetch] = useState(false);
+    const [userData, setUserData] = useState({});
     
     const getPosts = async () => {
         await fetch("https://jsonplaceholder.typicode.com/comments?_limit=25")
@@ -19,7 +20,7 @@ export default function AppProvider({ children }) {
     }, []);
 
     return (
-        <AppContext.Provider value={{posts, postFetch}}>
+        <AppContext.Provider value={{posts, postFetch, userData, setUserData}}>
             {children}
         </AppContext.Provider>
     );
