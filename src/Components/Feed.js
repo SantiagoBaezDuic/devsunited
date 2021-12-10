@@ -5,8 +5,10 @@ import { AppContext } from "../Context/AppContext";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
 import { collection, addDoc } from "firebase/firestore";
-import { auth, db } from "../Context/firebase";
+import { auth, db } from "../Services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { postData } from "../Services/operations"; 
+import useInput from "../Hooks/useInput";
 
 export default function Feed() {
 
@@ -14,18 +16,9 @@ export default function Feed() {
 
     //Manejo del estado del tuit input y la barra
 
-    const [tweet, setTweet] = useState("");
+    const [tweet, handleTweet] = useInput();
 
-    const handleTweet = (e) => {
-        setTweet(e.target.value);
-        
-        const twLenght = e.target.value.length;
-
-        const percentage = twLenght / 2;
-
-        document.getElementById("bar").style.width = percentage.toString() + "%";
-       
-    }
+    const POST_LENGTH = 200;
 
     //Captura del user que esta logeado
 
@@ -45,17 +38,13 @@ export default function Feed() {
       //Posteo del tuit a la base de datos
 
       const postTweet = async () => {
-      try {
-      const docRef = await addDoc(collection(db, "tuits"), {
-          user: userData.displayName,
-          text: tweet,
-          time: new Date().getTime()
-      });
-      console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-      console.error("Error adding document: ", e);
+        await postData("tuits", {
+            user: userData.displayName,
+            text: tweet,
+            time: new Date().getTime(),
+            likes: 0
+        })
       }
-      };
 
     return (
         <>
@@ -85,7 +74,10 @@ export default function Feed() {
                     </div>
                     <div className="tweeter-input-container">
                         <textarea onChange={handleTweet} maxLength="200" value={tweet} type="text" className="tweeter-input" placeholder="What's happening?" />
-                        <div id="bar" className="bar"></div>
+                        <div className="bar" style={{
+                            width: `${(tweet.length / POST_LENGTH) * 100}%`,
+                            transition: "ease-in-out all 0.3s"
+                            }} />
                         <div className="tweeter-subtext">
                             <span className="sub-subtext white">{tweet.length}</span>
                             <span className="highlight">200 max.</span>

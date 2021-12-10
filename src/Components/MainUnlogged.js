@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../CSS/Login.css";
 import "../CSS/MainUnlogged.css";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Context/firebase";
+import { auth } from "../Services/firebase";
 
 export default function Unlogged() {
 

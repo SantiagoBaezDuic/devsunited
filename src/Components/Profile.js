@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import {Link} from "react-router-dom";
 import "../CSS/Profile.css";
-import { auth } from "../Context/firebase";
+import { auth } from "../Services/firebase";
 import { signOut } from "firebase/auth";
 
 export default function Profile() {
