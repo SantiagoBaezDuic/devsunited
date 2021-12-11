@@ -1,39 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
-import { collection, addDoc } from "firebase/firestore";
-import { auth, db } from "../Services/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import { postData } from "../Services/operations"; 
+import { postData, getData, getUserID } from "../Services/operations"; 
 import useInput from "../Hooks/useInput";
+import { options } from "../Context/config";
 
 export default function Feed() {
 
-    const {posts, postFetch, userData, setUserData} = useContext(AppContext);
+    const {posts, setPosts, userData, setUserData, userID, setUserID} = useContext(AppContext);
 
     //Manejo del estado del tuit input y la barra
 
     const [tweet, handleTweet] = useInput();
 
     const POST_LENGTH = 200;
-
-    //Captura del user que esta logeado
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          setUserData(user);
-          // ...
-        } else {
-          // User is signed out
-          // ...
-        }
-      });
 
       //Posteo del tuit a la base de datos
 
@@ -45,6 +28,27 @@ export default function Feed() {
             likes: 0
         })
       }
+
+      //Fetch de la data almacenada en la coleccion tuits
+
+      useEffect( async () => {
+          const currentPosts = await getData("tuits");
+          setPosts(currentPosts);
+      }, [])
+
+      //Conversor de unix a fecha
+
+      const convertTime = (unix) => {
+          const readableDate = new Date(unix).toLocaleString(
+            "es-AR",
+            options
+          )
+          return readableDate;
+      }
+
+      //userID
+
+    console.log(userID);
 
     return (
         <>
@@ -89,27 +93,27 @@ export default function Feed() {
                 </div>
             </div>
             <div className="feed">
-                {postFetch ? posts.map((object) => {
+                {posts.length > 0 ? posts.map((object) => {
                     return (
-                        <div key={object.id} className="post-card">
+                        <div key={object.time} className="post-card">
                              <div className="post-pfp-container">
                                 <img className="profilepic" height="45px" src="./img/ornacia.png" alt="" />
                             </div>
                             <div className="post-text-container">
                                 <div className="post-username">
                                     <span className="username-container">
-                                        {object.email}
+                                        {object.user}
                                     </span>
                                     <span className="post-time">
-                                        - 5 jun.
+                                        - {convertTime(object.time)}
                                     </span>
                                 </div>
                                 <div>
-                                    {object.body}
+                                    {object.text}
                                 </div>
                                 <div className="post-likes">
                                     <img className="like-hollow-icon" height="17px" src="./img/Like-hollow.svg" alt="" />
-                                    <span className="likes-amount">100</span>
+                                    <span className="likes-amount">{object.likes}</span>
                                 </div>
                             </div>
                         </div>

@@ -2,27 +2,23 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../Services/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { registerUser } from "../Services/operations";
 
 export default function Register() {
+
+//Seteo de los estados del email y la contraseña
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleRegister = (e) => {
-    // e.preventDefault()
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("error " + errorCode + ", " + errorMessage);
-  
-    });
+
+//POST de los datos para la creación del usuario
+
+    const handleRegister = () => {
+      registerUser(email, password);
 }
+
+//Manejo de los estados del email y la contraseña
 
     const handleUser = (e) => {
         setEmail(e.target.value);
@@ -44,7 +40,7 @@ export default function Register() {
           <p className="press-start subtext">Using your email and password.</p>
           <input value={email} onChange={handleUser} className="username-input register-inputs" type="email" placeholder="yourname@email.com" />
           <input value={password} onChange={handlePass} className="username-input register-inputs" type="password" placeholder="password" />
-          <Link className="register-link" to="/welcome"><button onClick={handleRegister} className="login-btn">SIGN UP</button></Link>
+          <button onClick={handleRegister} className="login-btn">SIGN UP</button>
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/welcome">Logged</Link>
           <Link to="/">Unlogged</Link>

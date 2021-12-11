@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "../CSS/Login.css";
 import "../CSS/MainUnlogged.css";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Services/firebase";
+import { AppContext } from "../Context/AppContext";
 
 export default function Unlogged() {
 
@@ -11,15 +12,9 @@ export default function Unlogged() {
   
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/firebase.User
-      console.log(user.displayName)
       const uid = user.uid;
-      return user
-      // ...
     } else {
-      // User is signed out
-      // ...
       console.log("user signed out")
     }
   });
@@ -68,7 +63,6 @@ export default function Unlogged() {
           <img onClick={googleLogin} className="google-login" width="200px" src="./img/btn_google_signin_dark_normal_web.png" alt="" />
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/welcome">Logged</Link>
-          <Link to="/logintest">TEST</Link>
         </div>
       </header>
     </div>

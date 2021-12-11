@@ -1,16 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../Context/config";
 import "../CSS/MainPage.css";
 import "../CSS/Login.css";
+import { postData } from "../Services/operations";
 
 export default function Welcome() {
 
+  const [username, setUsername] = useState("");
+
+  const [favColor, setFavColor] = useState("pinky");
+
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
+  }
+
  const focusCube = (e) => {
+
+    setFavColor(e.target.id);
+
     colors.map((object) => {
         return (document.getElementById(object.id).style.border= "none");
     })
     document.getElementById(e.target.id).style.border= "3px solid white";
+ }
+
+ const setUserData = async () => {
+    await postData("userData", {
+        username: username,
+        favColor: favColor
+    })
+  
+
+   if (username !== ""){
+    window.location.replace("/feed");
+   }
  }
 
     return (<>
@@ -22,7 +46,7 @@ export default function Welcome() {
         </div>
         <div className="home-login-container">
           <h2 className="press-start title">Welcome <br/><span className="name">Name!</span></h2>
-          <input className="username-input" type="text" placeholder="Type your username" />
+          <input onChange={handleUsername} className="username-input" type="text" placeholder="Type your username" />
           <p className="press-start sub-subtext">Select your favorite color</p>
           <div className="cubes-container">
               {colors.map((object) => {
@@ -31,7 +55,7 @@ export default function Welcome() {
                       )
               })}
           </div>
-          <Link className="continue-container" to="/feed"><button className="continue press-start">Continue</button></Link>
+          <button onClick={setUserData} className="continue press-start">Continue</button>
           <span className="copyright">© 2021 Devs United - <span className="highlight">BETA</span></span>
           <Link to="/">Login</Link>
           <Link to="/profile">Perfil</Link>

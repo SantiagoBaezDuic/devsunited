@@ -18,3 +18,8 @@ export const colors = [
         id:"purple"
     }
 ];
+
+export const options = {
+    month: "short",
+    day: "numeric"
+  };

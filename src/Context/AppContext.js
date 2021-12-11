@@ -1,31 +1,15 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
 export const AppContext = createContext();
 
 export default function AppProvider({ children }) {
     const [posts, setPosts] = useState([]);
-    const [postFetch, setPostFetch] = useState(false);
     const [userData, setUserData] = useState({});
-    
-    const getPosts = async () => {
-        await fetch("https://jsonplaceholder.typicode.com/comments?_limit=25")
-        .then((response) => response.json())
-        .then((data => setPosts(data)))
-        .then(() => setPostFetch(true))
-        .catch((error) => console.log(error))
-    }
-
-    useEffect(() => {
-        getPosts()
-    }, []);
+    const [userID, setUserID] = useState("");
 
     return (
-        <AppContext.Provider value={{posts, postFetch, userData, setUserData}}>
+        <AppContext.Provider value={{posts, setPosts, userData, setUserData, userID, setUserID}}>
             {children}
         </AppContext.Provider>
     );
 }
-
-
-
-
