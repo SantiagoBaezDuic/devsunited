@@ -1,53 +1,71 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { db } from "./firebase";
 import { auth } from "./firebase";
 
-    //Posteo del tuit a la base de datos
+//Posteo del tuit a la base de datos
 
-    export const postData = async (col, data) => {
-        try {
-        const docRef = await addDoc(collection(db, col), data);
-        console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-        console.error("Error adding document: ", e);
-        }
-    };
+export const postData = async (col, data) => {
+  try {
+    const docRef = await addDoc(collection(db, col), data);
+    console.log("Document written with ID: ", docRef.id);
+    return docRef;
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+};
 
-    //Registro de nuevo usuario con email y contraseña
+//Registro de nuevo usuario con email y contraseña
 
-    export const registerUser = (email, password) => {
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-        window.location.replace("/login");
-        })
-        .catch((error) => {
-            const errorMessage = error.message;
-            console.error("Se ha producido un error: " + errorMessage);
-        });
-    };
+export const registerUser = (email, password) => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      window.location.replace("/login");
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      console.error("Se ha producido un error: " + errorMessage);
+    });
+};
 
-    //Fetch de la data de una coleccion
+//Fetch de la data de una coleccion
 
-     export const getData = async (col) => {
-        const collectionRef = collection(db, col);
-        const snapData = await getDocs(collectionRef);
-        const data = snapData.docs.map((doc) => doc.data());
-        return data
-   };
+export const getData = async (col) => {
+  const collectionRef = collection(db, col);
+  const snapData = await getDocs(collectionRef);
+  const data = snapData.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  return data;
+};
 
-   //Captura del user que esta logeado
+export const getDataByID = (id) => {};
 
-   export const getUserID = () => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const loggedUserID = user.uid;
-            return loggedUserID;
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          // ...
-        } else {
-          console.log("No user signed in");
-        }
-      });
-   }
+export const setDocument = async (col, docId, data) => {
+  await setDoc(col, docId, data);
+};
+
+//Updatear un doc en específico
+
+export const updateData = async (col, docId, newData) => {
+  const docRef = doc(db, col, docId);
+  await updateDoc(docRef, newData);
+};
+
+//Subscription
+
+export const getSubscription = (col, callback) => {
+  const collectionRef = collection(db, col);
+  const unsubscribe = onSnapshot(collectionRef, callback);
+  return unsubscribe;
+};
