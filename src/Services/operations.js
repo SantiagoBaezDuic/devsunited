@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   getDocs,
+  getDoc,
   updateDoc,
   doc,
   onSnapshot,
@@ -49,11 +50,22 @@ export const getData = async (col) => {
   return data;
 };
 
-export const getDataByID = (id) => {};
+/////////////////////////////////////////////////////////
 
-export const setDocument = async (col, docId, data) => {
-  await setDoc(col, docId, data);
+export const getDataByID = async (col, id) => {
+  const docRef = doc(db, col, id);
+  const docSnap = await getDoc(docRef);
+  const data = docSnap.data();
+  return data;
 };
+
+export const setDocument = async (col, userId, data) => {
+  const docRef = doc(db, col, userId);
+  const docSnap = await getDoc(docRef, data);
+  return docSnap;
+};
+
+/////////////////////////////////////////////////////////
 
 //Updatear un doc en específico
 

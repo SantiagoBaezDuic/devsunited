@@ -27,6 +27,8 @@ export const handleAuthChange = (callback) => {
   return unsubscribe;
 };
 
+/////////////////////////////////////////////////////////
+
 export const addUserToFirestore = async (user) => {
   const { id, displayName, email, photoURL } = user;
   const userExists = await getDataByID("userData", id);
@@ -38,3 +40,5 @@ export const addUserToFirestore = async (user) => {
     });
   }
 };
+
+/////////////////////////////////////////////////////////

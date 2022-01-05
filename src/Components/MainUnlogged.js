@@ -5,14 +5,6 @@ import "../CSS/MainUnlogged.css";
 import { signIn } from "../Services/Auth";
 
 export default function Unlogged() {
-  //esto va en app
-
-  // useEffect(() => {
-  //   if(user){
-
-  //   }
-  //   }
-  // , [user])
   return (
     <div className="App">
       <header className="App-header">
