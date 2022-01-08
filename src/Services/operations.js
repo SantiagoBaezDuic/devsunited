@@ -3,15 +3,13 @@ import {
   collection,
   getDocs,
   getDoc,
+  setDoc,
   updateDoc,
   doc,
   onSnapshot,
-  setDoc,
+  deleteDoc,
 } from "firebase/firestore";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "./firebase";
 import { auth } from "./firebase";
 
@@ -50,7 +48,7 @@ export const getData = async (col) => {
   return data;
 };
 
-/////////////////////////////////////////////////////////
+//Fetch de data de un documento específico
 
 export const getDataByID = async (col, id) => {
   const docRef = doc(db, col, id);
@@ -59,13 +57,13 @@ export const getDataByID = async (col, id) => {
   return data;
 };
 
+//Crear un documento con un id específico
+
 export const setDocument = async (col, userId, data) => {
   const docRef = doc(db, col, userId);
-  const docSnap = await getDoc(docRef, data);
+  const docSnap = await setDoc(docRef, data);
   return docSnap;
 };
-
-/////////////////////////////////////////////////////////
 
 //Updatear un doc en específico
 
@@ -80,4 +78,11 @@ export const getSubscription = (col, callback) => {
   const collectionRef = collection(db, col);
   const unsubscribe = onSnapshot(collectionRef, callback);
   return unsubscribe;
+};
+
+//Delete tweet
+
+export const deleteTweet = async (col, id) => {
+  const docRef = doc(db, col, id);
+  await deleteDoc(docRef);
 };

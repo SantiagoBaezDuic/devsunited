@@ -3,14 +3,22 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
-import { postData, setDocument, updateData } from "../Services/operations";
+import {
+  deleteTweet,
+  getData,
+  getDataByID,
+  postData,
+  updateData,
+} from "../Services/operations";
 import useInput from "../Hooks/useInput";
 import { options } from "../Context/config";
 import { postContext } from "../Context/postContext";
-import { addUserToFirestore } from "../Services/Auth";
+import { userContext } from "../Context/UserContext";
+import { doc } from "firebase/firestore";
 
 export default function Feed() {
   const { posts } = useContext(postContext);
+  const { user } = useContext(userContext);
 
   //Manejo del estado del tuit input y la barra
 
@@ -22,13 +30,15 @@ export default function Feed() {
 
   const postTweet = async () => {
     const dataToPost = {
-      // user: userData.displayName,
+      user: user.displayName,
       text: tweet,
       time: new Date().getTime(),
       likes: 0,
-      // userid: userID
+      uid: user.uid,
+      likedBy: [],
     };
     await postData("tuits", dataToPost);
+    document.getElementById("textArea").value = "";
   };
 
   //Conversor de unix a fecha
@@ -41,7 +51,36 @@ export default function Feed() {
   // Manejo de Likes
 
   const handleLike = async (tweet) => {
-    await updateData("tuits", tweet.id, { likes: tweet.likes + 1 });
+    const uid = user.uid;
+    const docRef = await getDataByID("tuits", tweet.id);
+    const userRef = await getDataByID("userData", uid);
+    if (docRef.likedBy.find((object) => object === uid) === undefined) {
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes + 1,
+        likedBy: [...docRef.likedBy, uid],
+      });
+      await updateData("userData", uid, {
+        likedTweets: [...userRef.likedTweets, tweet.id],
+      });
+    } else {
+      const filteredLikes = docRef.likedBy.filter((object) => {
+        return object !== uid;
+      });
+      const filteredUser = userRef.likedTweets.filter((object) => {
+        return object !== tweet.id;
+      });
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes - 1,
+        likedBy: filteredLikes,
+      });
+      await updateData("userData", uid, {
+        likedTweets: filteredUser,
+      });
+    }
+  };
+
+  const handleDelete = (id) => {
+    deleteTweet("tuits", id);
   };
 
   return (
@@ -82,6 +121,7 @@ export default function Feed() {
           </div>
           <div className="tweeter-input-container">
             <textarea
+              id="textArea"
               onChange={handleTweet}
               maxLength="200"
               value={tweet}
@@ -129,17 +169,40 @@ export default function Feed() {
                     </span>
                   </div>
                   <div>{object.text}</div>
-                  <div className="post-likes">
-                    <img
-                      onClick={() => {
-                        handleLike(object);
-                      }}
-                      className="like-hollow-icon"
-                      height="17px"
-                      src="./img/Like-hollow.svg"
-                      alt=""
-                    />
-                    <span className="likes-amount">{object.likes}</span>
+                  <div className="post-footer">
+                    <div className="post-likes">
+                      {object.likedBy.find((object) => object === user.uid) ===
+                      undefined ? (
+                        <img
+                          onClick={() => {
+                            handleLike(object);
+                          }}
+                          className="like-hollow-icon"
+                          height="17px"
+                          src="./img/Like-hollow.svg"
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          onClick={() => {
+                            handleLike(object);
+                          }}
+                          className="like-hollow-icon"
+                          height="17px"
+                          src="./img/Like-full.svg"
+                          alt=""
+                        />
+                      )}
+                      <span className="likes-amount">{object.likes}</span>
+                    </div>
+                    {object.uid === user.uid ? (
+                      <div
+                        className="delete-button"
+                        onClick={() => handleDelete(object.id)}
+                      >
+                        Borrar
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>

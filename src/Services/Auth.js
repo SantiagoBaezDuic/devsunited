@@ -18,8 +18,10 @@ export const signIn = async () => {
   }
 };
 
-export const signOut = () => {
-  _signOut(auth);
+export const signOut = async () => {
+  _signOut(auth)
+    .then(console.log("signout successful"))
+    .catch((error) => console.log(error));
 };
 
 export const handleAuthChange = (callback) => {
@@ -27,18 +29,15 @@ export const handleAuthChange = (callback) => {
   return unsubscribe;
 };
 
-/////////////////////////////////////////////////////////
-
 export const addUserToFirestore = async (user) => {
-  const { id, displayName, email, photoURL } = user;
-  const userExists = await getDataByID("userData", id);
-  if (!userExists) {
-    await setDocument("userData", id, {
+  const { uid, displayName, email, photoURL } = user;
+  const userExists = await getDataByID("userData", uid);
+  if (userExists === undefined) {
+    await setDocument("userData", uid, {
       name: displayName,
       email: email,
       photo: photoURL,
+      likedTweets: [],
     });
   }
 };
-
-/////////////////////////////////////////////////////////

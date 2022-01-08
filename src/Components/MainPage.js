@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { colors } from "../Context/config";
 import "../CSS/MainPage.css";
 import "../CSS/Login.css";
-import { postData } from "../Services/operations";
+import { userContext } from "../Context/UserContext";
 
 export default function Welcome() {
-  //States
-
-  const [username, setUsername] = useState("");
-
-  const [favColor, setFavColor] = useState("pinky");
+  const { setFavColor, setUsername, updateConfig, username } =
+    useContext(userContext);
 
   //Manejo del input de username
 
@@ -29,17 +26,9 @@ export default function Welcome() {
     document.getElementById(e.target.id).style.border = "3px solid white";
   };
 
-  //Post de username y color
-
-  const setUserData = async () => {
-    await postData("userData", {
-      username: username,
-      favColor: favColor,
-    });
-
-    if (username !== "") {
-      window.location.replace("/feed");
-    }
+  const handlePush = async () => {
+    await updateConfig();
+    console.log("pusheaste tus datos");
   };
 
   return (
@@ -53,7 +42,9 @@ export default function Welcome() {
           <div className="home-login-container">
             <h2 className="press-start title">
               Welcome <br />
-              <span className="name">Name!</span>
+              <span className="name">
+                {username !== "" ? username + "!" : "Name!"}
+              </span>
             </h2>
             <input
               onChange={handleUsername}
@@ -76,7 +67,7 @@ export default function Welcome() {
                 );
               })}
             </div>
-            <button onClick={setUserData} className="continue press-start">
+            <button onClick={handlePush} className="continue press-start">
               Continue
             </button>
             <span className="copyright">

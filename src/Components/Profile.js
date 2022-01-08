@@ -3,9 +3,13 @@ import { postContext } from "../Context/postContext";
 import { Link } from "react-router-dom";
 import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
+import { userContext } from "../Context/UserContext";
+import { options } from "../Context/config";
+import { deleteTweet } from "../Services/operations";
 
 export default function Profile() {
-  const posts = useContext(postContext);
+  const { posts } = useContext(postContext);
+  const { user } = useContext(userContext);
 
   const [showPosts, setShowPosts] = useState(true);
 
@@ -17,6 +21,19 @@ export default function Profile() {
     setShowPosts(false);
   };
 
+  let ownPosts = posts.filter((object) => {
+    return object.uid === user.uid;
+  });
+
+  const convertTime = (unix) => {
+    const readableDate = new Date(unix).toLocaleString("es-AR", options);
+    return readableDate;
+  };
+
+  const handleDelete = (id) => {
+    deleteTweet("tuits", id);
+  };
+
   return (
     <>
       <header>
@@ -26,11 +43,14 @@ export default function Profile() {
               <Link to="/feed">
                 <img height="25px" src="./img/back.svg" alt="" />
               </Link>
-              <span className="press-start">USERNAME</span>
+              <span className="press-start">FEED</span>
             </div>
             <Link to="/">
               <div className="logout-button">
-                <span onClick={signOut} className="press-start logout-text">
+                <span
+                  onClick={() => signOut}
+                  className="press-start logout-text"
+                >
                   LOGOUT
                 </span>
                 <img height="20px" src="./img/logout.svg" alt="" />
@@ -49,7 +69,9 @@ export default function Profile() {
               src="./img/ornacia.png"
               alt=""
             />
-            <h1 className="press-start username">USERNAME</h1>
+            <h1 className="press-start username">
+              {user !== null ? user.displayName : "Username"}
+            </h1>
           </div>
           <div className="profile-switch-container">
             <div className="profile-switch">
@@ -70,8 +92,8 @@ export default function Profile() {
         </div>
       </div>
       <div className="feed">
-        {posts.length > 0 ? (
-          posts.map((object) => {
+        {showPosts && ownPosts.length > 0 ? (
+          ownPosts.map((object) => {
             return (
               <div key={object.id} className="post-card">
                 <div className="post-pfp-container">
@@ -84,18 +106,28 @@ export default function Profile() {
                 </div>
                 <div className="post-text-container">
                   <div className="post-username">
-                    <span className="username-container">{object.email}</span>
-                    <span className="post-time">- 5 jun.</span>
+                    <span className="username-container">{object.user}</span>
+                    <span className="post-time">
+                      - {convertTime(object.time)}
+                    </span>
                   </div>
-                  <div>{object.body}</div>
-                  <div className="post-likes">
-                    <img
-                      className="like-hollow-icon"
-                      height="17px"
-                      src="./img/Like-hollow.svg"
-                      alt=""
-                    />
-                    <span className="likes-amount">100</span>
+                  <div>{object.text}</div>
+                  <div className="post-footer">
+                    <div className="post-likes">
+                      <img
+                        className="like-hollow-icon"
+                        height="17px"
+                        src="./img/Like-hollow.svg"
+                        alt=""
+                      />
+                      <span className="likes-amount">{object.likes}</span>
+                    </div>
+                    <div
+                      className="delete-button"
+                      onClick={() => handleDelete(object.id)}
+                    >
+                      Borrar
+                    </div>
                   </div>
                 </div>
               </div>

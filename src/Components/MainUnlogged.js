@@ -1,10 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { userContext } from "../Context/UserContext";
 import "../CSS/Login.css";
 import "../CSS/MainUnlogged.css";
 import { signIn } from "../Services/Auth";
 
 export default function Unlogged() {
+  const { user } = useContext(userContext);
+
+  console.log(user);
+
+  // if (user != null) {
+  //   window.location.replace("/welcome");
+  // }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -20,13 +29,13 @@ export default function Unlogged() {
           <p className="press-start subtext">
             The place to share with your fellow developers.
           </p>
-          <Link className="register-link" to="/register">
+          {/* <Link className="register-link" to="/register">
             <button className="login-btn">SIGN IN</button>
           </Link>
           <Link className="register-link" to="/login">
             <button className="login-btn">LOG IN</button>
           </Link>
-          <span className="press-start little">or</span>
+          <span className="press-start little">or</span> */}
           <img
             onClick={signIn}
             className="google-login"

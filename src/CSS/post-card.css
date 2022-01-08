@@ -46,10 +46,17 @@
     padding-left: 5px;
 }
 
+.post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 17px;
+    padding: 0px 7px;
+}
+
 .post-likes {
     display: flex;
     align-items: center;
-    margin-top: 17px;
 }
 
 .like-hollow-icon:hover {
@@ -60,4 +67,14 @@
     color: white;
     font-family: 'Fira Code', monospace;
     padding-left: 10px;
+}
+
+.delete-button {
+    color:#7a3775;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+    color: #c552bd;
+    text-decoration: underline;
 }
