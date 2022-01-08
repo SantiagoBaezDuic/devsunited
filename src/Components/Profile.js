@@ -91,6 +91,10 @@ export default function Profile() {
     }
   };
 
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <>
       <header>
@@ -105,7 +109,7 @@ export default function Profile() {
             <Link to="/">
               <div className="logout-button">
                 <span
-                  onClick={() => signOut}
+                  onClick={handleSignOut}
                   className="press-start logout-text"
                 >
                   LOGOUT

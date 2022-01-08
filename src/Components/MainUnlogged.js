@@ -10,9 +10,9 @@ export default function Unlogged() {
 
   console.log(user);
 
-  // if (user != null) {
-  //   window.location.replace("/welcome");
-  // }
+  if (user != null) {
+    window.location.replace("/welcome");
+  }
 
   return (
     <div className="App">

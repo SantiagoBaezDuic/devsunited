@@ -6,12 +6,11 @@ export const userContext = createContext();
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [userConfig, setUserConfig] = useState(null);
   const [favColor, setFavColor] = useState("pinky");
   const [username, setUsername] = useState("");
 
   useEffect(async () => {
-    const unsubscribe = handleAuthChange((user) => {
+    const unsubscribe = await handleAuthChange((user) => {
       if (user) {
         addUserToFirestore(user);
         setUser(user);
@@ -21,14 +20,6 @@ export default function UserProvider({ children }) {
       return () => unsubscribe();
     });
   }, []);
-
-  // useEffect(async () => {
-  //   if (user != null) {
-  //     const config = await getDataByID("userData", user.uid);
-  //     setFavColor(config.favColor);
-  //     setUsername(config.username);
-  //   }
-  // }, []);
 
   const updateConfig = () => {
     if (username != "") {

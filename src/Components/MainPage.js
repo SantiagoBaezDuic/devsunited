@@ -28,7 +28,9 @@ export default function Welcome() {
 
   const handlePush = async () => {
     await updateConfig();
-    console.log("pusheaste tus datos");
+    if (username !== "") {
+      window.location.replace("/feed");
+    }
   };
 
   return (
