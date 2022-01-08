@@ -1,11 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { postContext } from "../Context/postContext";
 import { Link } from "react-router-dom";
 import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
 import { userContext } from "../Context/UserContext";
 import { options } from "../Context/config";
-import { deleteTweet } from "../Services/operations";
+import {
+  deleteTweet,
+  getData,
+  getDataByID,
+  updateData,
+} from "../Services/operations";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../Services/firebase";
 
 export default function Profile() {
   const { posts } = useContext(postContext);
@@ -25,6 +32,10 @@ export default function Profile() {
     return object.uid === user.uid;
   });
 
+  let likedPosts = posts.filter((object) => {
+    return object.likedBy.find((element) => element === user.uid) !== undefined;
+  });
+
   const convertTime = (unix) => {
     const readableDate = new Date(unix).toLocaleString("es-AR", options);
     return readableDate;
@@ -32,6 +43,52 @@ export default function Profile() {
 
   const handleDelete = (id) => {
     deleteTweet("tuits", id);
+  };
+
+  // Manejo de Likes
+
+  const handleLike = async (tweet) => {
+    const uid = user.uid;
+
+    //Referencia del doc del tuit
+
+    const docRef = await getDataByID("tuits", tweet.id);
+
+    //Referencia del doc del usuario
+
+    const userRef = await getDataByID("userData", uid);
+
+    //Chequea si el tuit está likeado por el usuario logeado
+
+    if (docRef.likedBy.find((object) => object === uid) === undefined) {
+      //Caso negativo agrega el usuario al tuit y viceversa
+
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes + 1,
+        likedBy: [...docRef.likedBy, uid],
+      });
+      await updateData("userData", uid, {
+        likedTweets: [...userRef.likedTweets, tweet.id],
+      });
+    } else {
+      //Filtrado de las listas para borrar el tuit y el usuario
+
+      const filteredLikes = docRef.likedBy.filter((object) => {
+        return object !== uid;
+      });
+      const filteredUser = userRef.likedTweets.filter((object) => {
+        return object !== tweet.id;
+      });
+      //Caso positivo borra el usuario del tuit y viceversa
+
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes - 1,
+        likedBy: filteredLikes,
+      });
+      await updateData("userData", uid, {
+        likedTweets: filteredUser,
+      });
+    }
   };
 
   return (
@@ -92,50 +149,121 @@ export default function Profile() {
         </div>
       </div>
       <div className="feed">
-        {showPosts && ownPosts.length > 0 ? (
-          ownPosts.map((object) => {
-            return (
-              <div key={object.id} className="post-card">
-                <div className="post-pfp-container">
-                  <img
-                    className="profilepic"
-                    height="45px"
-                    src="./img/ornacia.png"
-                    alt=""
-                  />
-                </div>
-                <div className="post-text-container">
-                  <div className="post-username">
-                    <span className="username-container">{object.user}</span>
-                    <span className="post-time">
-                      - {convertTime(object.time)}
-                    </span>
+        {showPosts
+          ? ownPosts.map((object) => {
+              return (
+                <div key={object.id} className="post-card">
+                  <div className="post-pfp-container">
+                    <img
+                      className="profilepic"
+                      height="45px"
+                      src="./img/ornacia.png"
+                      alt=""
+                    />
                   </div>
-                  <div>{object.text}</div>
-                  <div className="post-footer">
-                    <div className="post-likes">
-                      <img
-                        className="like-hollow-icon"
-                        height="17px"
-                        src="./img/Like-hollow.svg"
-                        alt=""
-                      />
-                      <span className="likes-amount">{object.likes}</span>
+                  <div className="post-text-container">
+                    <div className="post-username">
+                      <span className="username-container">{object.user}</span>
+                      <span className="post-time">
+                        - {convertTime(object.time)}
+                      </span>
                     </div>
-                    <div
-                      className="delete-button"
-                      onClick={() => handleDelete(object.id)}
-                    >
-                      Borrar
+                    <div>{object.text}</div>
+                    <div className="post-footer">
+                      <div className="post-likes">
+                        {object.likedBy.find(
+                          (object) => object === user.uid
+                        ) === undefined ? (
+                          <img
+                            onClick={() => {
+                              handleLike(object);
+                            }}
+                            className="like-hollow-icon"
+                            height="17px"
+                            src="./img/Like-hollow.svg"
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            onClick={() => {
+                              handleLike(object);
+                            }}
+                            className="like-hollow-icon"
+                            height="17px"
+                            src="./img/Like-full.svg"
+                            alt=""
+                          />
+                        )}
+                        <span className="likes-amount">{object.likes}</span>
+                      </div>
+                      <div
+                        className="delete-button"
+                        onClick={() => handleDelete(object.id)}
+                      >
+                        Borrar
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })
-        ) : (
-          <p className="press-start loading">Posts are loading...</p>
-        )}
+              );
+            })
+          : likedPosts.map((object) => {
+              return (
+                <div key={object.id} className="post-card">
+                  <div className="post-pfp-container">
+                    <img
+                      className="profilepic"
+                      height="45px"
+                      src="./img/ornacia.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="post-text-container">
+                    <div className="post-username">
+                      <span className="username-container">{object.user}</span>
+                      <span className="post-time">
+                        - {convertTime(object.time)}
+                      </span>
+                    </div>
+                    <div>{object.text}</div>
+                    <div className="post-footer">
+                      <div className="post-likes">
+                        {object.likedBy.find(
+                          (object) => object === user.uid
+                        ) === undefined ? (
+                          <img
+                            onClick={() => {
+                              handleLike(object);
+                            }}
+                            className="like-hollow-icon"
+                            height="17px"
+                            src="./img/Like-hollow.svg"
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            onClick={() => {
+                              handleLike(object);
+                            }}
+                            className="like-hollow-icon"
+                            height="17px"
+                            src="./img/Like-full.svg"
+                            alt=""
+                          />
+                        )}
+                        <span className="likes-amount">{object.likes}</span>
+                      </div>
+                      <div
+                        className="delete-button"
+                        onClick={() => handleDelete(object.id)}
+                      >
+                        Borrar
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
         <Link to="/">Login</Link>
       </div>
     </>

@@ -52,9 +52,20 @@ export default function Feed() {
 
   const handleLike = async (tweet) => {
     const uid = user.uid;
+
+    //Referencia del doc del tuit
+
     const docRef = await getDataByID("tuits", tweet.id);
+
+    //Referencia del doc del usuario
+
     const userRef = await getDataByID("userData", uid);
+
+    //Chequea si el tuit está likeado por el usuario logeado
+
     if (docRef.likedBy.find((object) => object === uid) === undefined) {
+      //Caso negativo agrega el usuario al tuit y viceversa
+
       await updateData("tuits", tweet.id, {
         likes: tweet.likes + 1,
         likedBy: [...docRef.likedBy, uid],
@@ -63,12 +74,16 @@ export default function Feed() {
         likedTweets: [...userRef.likedTweets, tweet.id],
       });
     } else {
+      //Filtrado de las listas para borrar el tuit y el usuario
+
       const filteredLikes = docRef.likedBy.filter((object) => {
         return object !== uid;
       });
       const filteredUser = userRef.likedTweets.filter((object) => {
         return object !== tweet.id;
       });
+      //Caso positivo borra el usuario del tuit y viceversa
+
       await updateData("tuits", tweet.id, {
         likes: tweet.likes - 1,
         likedBy: filteredLikes,
