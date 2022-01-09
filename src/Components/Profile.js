@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { postContext } from "../Context/postContext";
 import { Link } from "react-router-dom";
 import "../CSS/Profile.css";
@@ -120,12 +120,12 @@ export default function Profile() {
               <img
                 height="170px"
                 width="170px"
-                className={"profilepic" + " " + favColor}
+                className={"profilepic " + favColor}
                 src={photo !== null ? photo : "./img/ornacia.png"}
                 alt=""
               />
             </Link>
-            <h1 className={"press-start username" + " " + userColor}>
+            <h1 className={"press-start username " + userColor}>
               {user !== null ? user.displayName : "Username"}
             </h1>
           </div>
@@ -154,7 +154,7 @@ export default function Profile() {
                 <div key={object.id} className="post-card">
                   <div className="post-pfp-container">
                     <img
-                      className={"profilepic" + " " + favColor}
+                      className={"profilepic " + favColor}
                       height="45px"
                       src={photo !== null ? photo : "./img/ornacia.png"}
                       alt=""
@@ -162,7 +162,7 @@ export default function Profile() {
                   </div>
                   <div className="post-text-container">
                     <div className="post-username">
-                      <span className={"username-container" + " " + bgColor}>
+                      <span className={"username-container " + bgColor}>
                         {object.user}
                       </span>
                       <span className="post-time">
@@ -213,7 +213,7 @@ export default function Profile() {
                 <div key={object.id} className="post-card">
                   <div className="post-pfp-container">
                     <img
-                      className={"profilepic" + " " + favColor}
+                      className={"profilepic " + favColor}
                       height="45px"
                       src={
                         object.uid === user.uid
@@ -227,7 +227,7 @@ export default function Profile() {
                   </div>
                   <div className="post-text-container">
                     <div className="post-username">
-                      <span className={"username-container" + " " + bgColor}>
+                      <span className={"username-container " + bgColor}>
                         {object.user}
                       </span>
                       <span className="post-time">
@@ -275,8 +275,8 @@ export default function Profile() {
                 </div>
               );
             })}
-        <Link to="/">Login</Link>
-        <Link to="/welcome">Color</Link>
+        {/* <Link to="/">Login</Link>
+        <Link to="/welcome">Color</Link> */}
       </div>
     </>
   );

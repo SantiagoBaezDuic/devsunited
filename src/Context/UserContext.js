@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { addUserToFirestore, handleAuthChange } from "../Services/Auth";
-import { getData, getDataByID, updateData } from "../Services/operations";
+import { getDataByID, updateData } from "../Services/operations";
 
 export const userContext = createContext();
 
@@ -18,7 +18,6 @@ export default function UserProvider({ children }) {
         addUserToFirestore(user);
         setUser(user);
         setPhoto(user.photoURL);
-        getConfig();
       } else {
         setUser(null);
       }
@@ -40,11 +39,15 @@ export default function UserProvider({ children }) {
   };
 
   const getConfig = async () => {
-    if (user !== null) {
+    if (user) {
       const config = await getDataByID("userData", user.uid);
       console.log(config);
     }
   };
+
+  useEffect(() => {
+    getConfig();
+  }, []);
 
   //Cambiar el color de la app
 
@@ -73,6 +76,10 @@ export default function UserProvider({ children }) {
       case "purple":
         setUserColor("purpleUser");
         setBGColor("purpleBG");
+        break;
+      default:
+        setUserColor("pinkyUser");
+        setBGColor("pinkyBG");
         break;
     }
   }, [favColor]);

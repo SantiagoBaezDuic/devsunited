@@ -9,13 +9,6 @@ import Login from "./Login";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
-  // useEffect(() => {
-  //   if(user){
-
-  //   }
-  //   }
-  // , [user])
-
   return (
     <>
       <Routes>

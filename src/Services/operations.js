@@ -9,9 +9,7 @@ import {
   onSnapshot,
   deleteDoc,
 } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { db } from "./firebase";
-import { auth } from "./firebase";
 
 //Posteo del tuit a la base de datos
 

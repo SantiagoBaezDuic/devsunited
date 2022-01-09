@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import "../CSS/post-card.css";
@@ -9,7 +9,6 @@ import {
   postData,
   updateData,
 } from "../Services/operations";
-import useInput from "../Hooks/useInput";
 import { options } from "../Context/config";
 import { postContext } from "../Context/postContext";
 import { userContext } from "../Context/UserContext";
@@ -20,7 +19,7 @@ export default function Feed() {
 
   //Manejo del estado del tuit input y la barra
 
-  const [tweet, handleTweet] = useInput();
+  const [tweet, setTweet] = useState("");
 
   const POST_LENGTH = 200;
 
@@ -36,6 +35,7 @@ export default function Feed() {
       likedBy: [],
     };
     await postData("tuits", dataToPost);
+    setTweet("");
   };
 
   //Conversor de unix a fecha
@@ -95,6 +95,10 @@ export default function Feed() {
     deleteTweet("tuits", id);
   };
 
+  const handleTweet = (e) => {
+    setTweet(e.target.value);
+  };
+
   return (
     <>
       <header>
@@ -104,7 +108,7 @@ export default function Feed() {
               <Link to="/profile">
                 <img
                   id="pic-border"
-                  className={"profilepic" + " " + favColor}
+                  className={"profilepic " + favColor}
                   height="25px"
                   src={photo !== null ? photo : "./img/ornacia.png"}
                   alt=""
@@ -127,7 +131,7 @@ export default function Feed() {
               <img
                 id="pic-border"
                 height="50px"
-                className={"profilepic" + " " + favColor}
+                className={"profilepic " + favColor}
                 src={photo !== null ? photo : "./img/ornacia.png"}
                 alt=""
               />
@@ -170,7 +174,7 @@ export default function Feed() {
                 <div className="post-pfp-container">
                   <img
                     id="pic-border"
-                    className={"profilepic" + " " + favColor}
+                    className={"profilepic " + favColor}
                     height="45px"
                     src={
                       object.uid === user.uid
@@ -184,7 +188,7 @@ export default function Feed() {
                 </div>
                 <div className="post-text-container">
                   <div className="post-username">
-                    <span className={"username-container" + " " + bgColor}>
+                    <span className={"username-container " + bgColor}>
                       {object.user}
                     </span>
                     <span className="post-time">
@@ -234,7 +238,7 @@ export default function Feed() {
         ) : (
           <p className="press-start loading">Posts are loading...</p>
         )}
-        <Link to="/">Login</Link>
+        {/* <Link to="/">Login</Link> */}
       </div>
     </>
   );

@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { colors } from "../Context/config";
 import "../CSS/MainPage.css";
 import "../CSS/Login.css";
 import { userContext } from "../Context/UserContext";
+import { Link } from "react-router-dom";
 
 export default function Welcome() {
-  const { favColor, setFavColor, setUsername, updateConfig, username } =
+  const { userColor, setFavColor, setUsername, updateConfig, username } =
     useContext(userContext);
 
   //Manejo del input de username
@@ -28,9 +29,6 @@ export default function Welcome() {
 
   const handlePush = async () => {
     await updateConfig();
-    if (username !== "") {
-      window.location.replace("/feed");
-    }
   };
 
   return (
@@ -44,15 +42,17 @@ export default function Welcome() {
           <div className="home-login-container">
             <h2 className="press-start title">
               Welcome <br />
-              <span className="name">
-                {username !== "" ? username + "!" : "Name!"}
+              <span className={"name " + userColor}>
+                {username !== "" ? username : "Name"}
               </span>
+              <span>!</span>
             </h2>
             <input
               onChange={handleUsername}
               className="username-input"
               type="text"
               placeholder="Type your username"
+              value={username}
             />
             <p className="press-start sub-subtext">
               Select your favorite color
@@ -69,15 +69,17 @@ export default function Welcome() {
                 );
               })}
             </div>
-            <button onClick={handlePush} className="continue press-start">
-              Continue
-            </button>
+            <Link to="/feed">
+              <button onClick={handlePush} className="continue press-start">
+                Continue
+              </button>
+            </Link>
             <span className="copyright">
               © 2021 Devs United - <span className="highlight">BETA</span>
             </span>
-            <Link to="/">Login</Link>
+            {/* <Link to="/">Login</Link>
             <Link to="/profile">Perfil</Link>
-            <Link to="/feed">Feed</Link>
+            <Link to="/feed">Feed</Link> */}
           </div>
         </header>
       </div>

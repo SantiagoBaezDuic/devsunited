@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { auth } from "../Services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+// import { Link } from "react-router-dom";
+// import { auth } from "../Services/firebase";
+// import { createUserWithEmailAndPassword } from "firebase/auth";
 // import { registerUser } from "../Services/operations";
 
 export default function Register() {
@@ -59,8 +59,8 @@ export default function Register() {
           <span className="copyright">
             © 2021 Devs United - <span className="highlight">BETA</span>
           </span>
-          <Link to="/welcome">Logged</Link>
-          <Link to="/">Unlogged</Link>
+          {/* <Link to="/welcome">Logged</Link>
+          <Link to="/">Unlogged</Link> */}
         </div>
       </header>
     </div>

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { userContext } from "../Context/UserContext";
 import "../CSS/Login.css";
 import "../CSS/MainUnlogged.css";
@@ -44,7 +44,7 @@ export default function Unlogged() {
           <span className="copyright">
             © 2021 Devs United - <span className="highlight">BETA</span>
           </span>
-          <Link to="/welcome">Logged</Link>
+          {/* <Link to="/welcome">Logged</Link> */}
         </div>
       </header>
     </div>
