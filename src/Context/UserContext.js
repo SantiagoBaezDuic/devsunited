@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { addUserToFirestore, handleAuthChange } from "../Services/Auth";
-import { getDataByID, updateData } from "../Services/operations";
+import { getData, getDataByID, updateData } from "../Services/operations";
 
 export const userContext = createContext();
 
@@ -8,12 +8,17 @@ export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [favColor, setFavColor] = useState("pinky");
   const [username, setUsername] = useState("");
+  const [photo, setPhoto] = useState(null);
+  const [userColor, setUserColor] = useState("pinkyUser");
+  const [bgColor, setBGColor] = useState("pinkyBG");
 
   useEffect(async () => {
-    const unsubscribe = await handleAuthChange((user) => {
+    const unsubscribe = handleAuthChange((user) => {
       if (user) {
         addUserToFirestore(user);
         setUser(user);
+        setPhoto(user.photoURL);
+        getConfig();
       } else {
         setUser(null);
       }
@@ -22,7 +27,7 @@ export default function UserProvider({ children }) {
   }, []);
 
   const updateConfig = () => {
-    if (username != "") {
+    if (username !== "") {
       updateData("userData", user.uid, {
         favColor: favColor,
         username: username,
@@ -34,10 +39,52 @@ export default function UserProvider({ children }) {
     }
   };
 
+  const getConfig = async () => {
+    if (user !== null) {
+      const config = await getDataByID("userData", user.uid);
+      console.log(config);
+    }
+  };
+
+  //Cambiar el color de la app
+
+  useEffect(() => {
+    switch (favColor) {
+      case "pinky":
+        setUserColor("pinkyUser");
+        setBGColor("pinkyBG");
+        break;
+      case "orange":
+        setUserColor("orangeUser");
+        setBGColor("orangeBG");
+        break;
+      case "yellow":
+        setUserColor("yellowUser");
+        setBGColor("yellowBG");
+        break;
+      case "green":
+        setUserColor("greenUser");
+        setBGColor("greenBG");
+        break;
+      case "cyan":
+        setUserColor("cyanUser");
+        setBGColor("cyanBG");
+        break;
+      case "purple":
+        setUserColor("purpleUser");
+        setBGColor("purpleBG");
+        break;
+    }
+  }, [favColor]);
+
   return (
     <userContext.Provider
       value={{
         user,
+        userColor,
+        bgColor,
+        photo,
+        favColor,
         setFavColor,
         setUsername,
         updateConfig,

@@ -5,18 +5,11 @@ import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
 import { userContext } from "../Context/UserContext";
 import { options } from "../Context/config";
-import {
-  deleteTweet,
-  getData,
-  getDataByID,
-  updateData,
-} from "../Services/operations";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../Services/firebase";
+import { deleteTweet, getDataByID, updateData } from "../Services/operations";
 
 export default function Profile() {
   const { posts } = useContext(postContext);
-  const { user } = useContext(userContext);
+  const { user, favColor, photo, userColor, bgColor } = useContext(userContext);
 
   const [showPosts, setShowPosts] = useState(true);
 
@@ -123,14 +116,16 @@ export default function Profile() {
       <div className="profile-general-container">
         <div className="profile-center">
           <div className="profile-container">
-            <img
-              height="170px"
-              width="170px"
-              className="profile-pic"
-              src="./img/ornacia.png"
-              alt=""
-            />
-            <h1 className="press-start username">
+            <Link to="/welcome">
+              <img
+                height="170px"
+                width="170px"
+                className={"profilepic" + " " + favColor}
+                src={photo !== null ? photo : "./img/ornacia.png"}
+                alt=""
+              />
+            </Link>
+            <h1 className={"press-start username" + " " + userColor}>
               {user !== null ? user.displayName : "Username"}
             </h1>
           </div>
@@ -159,15 +154,17 @@ export default function Profile() {
                 <div key={object.id} className="post-card">
                   <div className="post-pfp-container">
                     <img
-                      className="profilepic"
+                      className={"profilepic" + " " + favColor}
                       height="45px"
-                      src="./img/ornacia.png"
+                      src={photo !== null ? photo : "./img/ornacia.png"}
                       alt=""
                     />
                   </div>
                   <div className="post-text-container">
                     <div className="post-username">
-                      <span className="username-container">{object.user}</span>
+                      <span className={"username-container" + " " + bgColor}>
+                        {object.user}
+                      </span>
                       <span className="post-time">
                         - {convertTime(object.time)}
                       </span>
@@ -216,15 +213,23 @@ export default function Profile() {
                 <div key={object.id} className="post-card">
                   <div className="post-pfp-container">
                     <img
-                      className="profilepic"
+                      className={"profilepic" + " " + favColor}
                       height="45px"
-                      src="./img/ornacia.png"
+                      src={
+                        object.uid === user.uid
+                          ? photo !== null
+                            ? photo
+                            : "./img/ornacia.png"
+                          : "./img/ornacia.png"
+                      }
                       alt=""
                     />
                   </div>
                   <div className="post-text-container">
                     <div className="post-username">
-                      <span className="username-container">{object.user}</span>
+                      <span className={"username-container" + " " + bgColor}>
+                        {object.user}
+                      </span>
                       <span className="post-time">
                         - {convertTime(object.time)}
                       </span>
@@ -257,18 +262,21 @@ export default function Profile() {
                         )}
                         <span className="likes-amount">{object.likes}</span>
                       </div>
-                      <div
-                        className="delete-button"
-                        onClick={() => handleDelete(object.id)}
-                      >
-                        Borrar
-                      </div>
+                      {object.uid === user.uid ? (
+                        <div
+                          className="delete-button"
+                          onClick={() => handleDelete(object.id)}
+                        >
+                          Borrar
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
               );
             })}
         <Link to="/">Login</Link>
+        <Link to="/welcome">Color</Link>
       </div>
     </>
   );

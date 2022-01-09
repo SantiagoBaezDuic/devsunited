@@ -103,3 +103,61 @@
     flex-direction: column;
     align-items: center;
 }
+
+/* Colores */
+
+.pinky {
+    border-color: #f50d5a;
+    color: #f50d5a;
+}
+
+.orange {
+    border-color: #ff865c;
+    color: #ff865c;
+}
+
+.yellow {
+    border-color: #ffea5c;
+    color: #ffea5c;
+}
+
+.green {
+    border-color: #00da76;
+    color: #00da76;
+}
+
+.cyan {
+    border-color: #0096ce;
+    color: #0096ce;
+}
+
+.purple {
+    border-color: #800fff;
+    color: #800fff;
+}
+
+/* /// */
+
+.pinkyBG {
+    background-color: #f50d5a;
+}
+
+.orangeBG {
+    background-color: #ff865c;
+}
+
+.yellowBG {
+    background-color: #ffea5c;
+}
+
+.greenBG {
+    background-color: #00da76;
+}
+
+.cyanBG {
+    background-color: #0096ce;
+}
+
+.purpleBG {
+    background-color: #800fff;
+}

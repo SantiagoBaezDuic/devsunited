@@ -27,17 +27,17 @@ export const postData = async (col, data) => {
 
 //Registro de nuevo usuario con email y contraseña
 
-export const registerUser = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      window.location.replace("/login");
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.error("Se ha producido un error: " + errorMessage);
-    });
-};
+// export const registerUser = (email, password) => {
+//   createUserWithEmailAndPassword(auth, email, password)
+//     .then((userCredential) => {
+//       const user = userCredential.user;
+//       window.location.replace("/login");
+//     })
+//     .catch((error) => {
+//       const errorMessage = error.message;
+//       console.error("Se ha producido un error: " + errorMessage);
+//     });
+// };
 
 //Fetch de la data de una coleccion
 

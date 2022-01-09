@@ -8,8 +8,6 @@ import { signIn } from "../Services/Auth";
 export default function Unlogged() {
   const { user } = useContext(userContext);
 
-  console.log(user);
-
   if (user != null) {
     window.location.replace("/welcome");
   }

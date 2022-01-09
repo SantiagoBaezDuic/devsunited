@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
 import {
   deleteTweet,
-  getData,
   getDataByID,
   postData,
   updateData,
@@ -14,11 +13,10 @@ import useInput from "../Hooks/useInput";
 import { options } from "../Context/config";
 import { postContext } from "../Context/postContext";
 import { userContext } from "../Context/UserContext";
-import { doc } from "firebase/firestore";
 
 export default function Feed() {
   const { posts } = useContext(postContext);
-  const { user } = useContext(userContext);
+  const { user, favColor, photo, bgColor } = useContext(userContext);
 
   //Manejo del estado del tuit input y la barra
 
@@ -38,7 +36,6 @@ export default function Feed() {
       likedBy: [],
     };
     await postData("tuits", dataToPost);
-    document.getElementById("textArea").value = "";
   };
 
   //Conversor de unix a fecha
@@ -106,9 +103,10 @@ export default function Feed() {
             <div className="icon-container">
               <Link to="/profile">
                 <img
-                  className="profilepic"
+                  id="pic-border"
+                  className={"profilepic" + " " + favColor}
                   height="25px"
-                  src="./img/ornacia.png"
+                  src={photo !== null ? photo : "./img/ornacia.png"}
                   alt=""
                 />
               </Link>
@@ -127,9 +125,10 @@ export default function Feed() {
           <div className="tweeter-pfp-container">
             <Link className="profilepic-link" to="/profile">
               <img
+                id="pic-border"
                 height="50px"
-                className="profilepic"
-                src="./img/ornacia.png"
+                className={"profilepic" + " " + favColor}
+                src={photo !== null ? photo : "./img/ornacia.png"}
                 alt=""
               />
             </Link>
@@ -170,15 +169,24 @@ export default function Feed() {
               <div key={object.id} className="post-card">
                 <div className="post-pfp-container">
                   <img
-                    className="profilepic"
+                    id="pic-border"
+                    className={"profilepic" + " " + favColor}
                     height="45px"
-                    src="./img/ornacia.png"
+                    src={
+                      object.uid === user.uid
+                        ? photo !== null
+                          ? photo
+                          : "./img/ornacia.png"
+                        : "./img/ornacia.png"
+                    }
                     alt=""
                   />
                 </div>
                 <div className="post-text-container">
                   <div className="post-username">
-                    <span className="username-container">{object.user}</span>
+                    <span className={"username-container" + " " + bgColor}>
+                      {object.user}
+                    </span>
                     <span className="post-time">
                       - {convertTime(object.time)}
                     </span>

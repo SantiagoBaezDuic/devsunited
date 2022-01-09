@@ -6,7 +6,7 @@ import "../CSS/Login.css";
 import { userContext } from "../Context/UserContext";
 
 export default function Welcome() {
-  const { setFavColor, setUsername, updateConfig, username } =
+  const { favColor, setFavColor, setUsername, updateConfig, username } =
     useContext(userContext);
 
   //Manejo del input de username
