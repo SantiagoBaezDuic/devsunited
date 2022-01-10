@@ -38,16 +38,16 @@ export default function UserProvider({ children }) {
     }
   };
 
-  const getConfig = async () => {
-    if (user) {
-      const config = await getDataByID("userData", user.uid);
-      console.log(config);
-    }
-  };
+  // const getConfig = async () => {
+  //   if (user) {
+  //     const config = await getDataByID("userData", user.uid);
+  //     console.log(config);
+  //   }
+  // };
 
-  useEffect(() => {
-    getConfig();
-  }, []);
+  // useEffect(() => {
+  //   getConfig();
+  // }, []);
 
   //Cambiar el color de la app
 

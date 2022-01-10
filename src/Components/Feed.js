@@ -3,18 +3,12 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
-import {
-  deleteTweet,
-  getDataByID,
-  postData,
-  updateData,
-} from "../Services/operations";
-import { options } from "../Context/config";
+import { getDataByID, postData, updateData } from "../Services/operations";
 import { postContext } from "../Context/postContext";
 import { userContext } from "../Context/UserContext";
 
 export default function Feed() {
-  const { posts } = useContext(postContext);
+  const { posts, convertTime, handleDelete } = useContext(postContext);
   const { user, favColor, photo, bgColor } = useContext(userContext);
 
   //Manejo del estado del tuit input y la barra
@@ -36,13 +30,6 @@ export default function Feed() {
     };
     await postData("tuits", dataToPost);
     setTweet("");
-  };
-
-  //Conversor de unix a fecha
-
-  const convertTime = (unix) => {
-    const readableDate = new Date(unix).toLocaleString("es-AR", options);
-    return readableDate;
   };
 
   // Manejo de Likes
@@ -91,9 +78,7 @@ export default function Feed() {
     }
   };
 
-  const handleDelete = (id) => {
-    deleteTweet("tuits", id);
-  };
+  //Manejo del estado del tweet
 
   const handleTweet = (e) => {
     setTweet(e.target.value);

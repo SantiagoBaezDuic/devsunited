@@ -4,14 +4,15 @@ import { Link } from "react-router-dom";
 import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
 import { userContext } from "../Context/UserContext";
-import { options } from "../Context/config";
-import { deleteTweet, getDataByID, updateData } from "../Services/operations";
+import { getDataByID, updateData } from "../Services/operations";
 
 export default function Profile() {
-  const { posts } = useContext(postContext);
+  const { posts, convertTime, handleDelete } = useContext(postContext);
   const { user, favColor, photo, userColor, bgColor } = useContext(userContext);
 
   const [showPosts, setShowPosts] = useState(true);
+
+  //Manejo del booleano que decide si se muestran los tweets propios o los faveados
 
   const handlePosts = () => {
     setShowPosts(true);
@@ -21,22 +22,19 @@ export default function Profile() {
     setShowPosts(false);
   };
 
+  //Filtrado de tweets
+
+  //Propios
+
   let ownPosts = posts.filter((object) => {
     return object.uid === user.uid;
   });
 
+  //Faveados
+
   let likedPosts = posts.filter((object) => {
     return object.likedBy.find((element) => element === user.uid) !== undefined;
   });
-
-  const convertTime = (unix) => {
-    const readableDate = new Date(unix).toLocaleString("es-AR", options);
-    return readableDate;
-  };
-
-  const handleDelete = (id) => {
-    deleteTweet("tuits", id);
-  };
 
   // Manejo de Likes
 
