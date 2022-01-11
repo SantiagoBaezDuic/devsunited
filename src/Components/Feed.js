@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import "../CSS/post-card.css";
 import "../CSS/Feed.css";
-import { getDataByID, postData, updateData } from "../Services/operations";
+import { postData } from "../Services/operations";
 import { postContext } from "../Context/postContext";
 import { userContext } from "../Context/UserContext";
 
 export default function Feed() {
-  const { posts, convertTime, handleDelete } = useContext(postContext);
+  const { posts, convertTime, handleDelete, globalHandleLike } =
+    useContext(postContext);
   const { user, favColor, photo, bgColor } = useContext(userContext);
 
   //Manejo del estado del tuit input y la barra
@@ -32,56 +33,16 @@ export default function Feed() {
     setTweet("");
   };
 
-  // Manejo de Likes
-
-  const handleLike = async (tweet) => {
-    const uid = user.uid;
-
-    //Referencia del doc del tuit
-
-    const docRef = await getDataByID("tuits", tweet.id);
-
-    //Referencia del doc del usuario
-
-    const userRef = await getDataByID("userData", uid);
-
-    //Chequea si el tuit está likeado por el usuario logeado
-
-    if (docRef.likedBy.find((object) => object === uid) === undefined) {
-      //Caso negativo agrega el usuario al tuit y viceversa
-
-      await updateData("tuits", tweet.id, {
-        likes: tweet.likes + 1,
-        likedBy: [...docRef.likedBy, uid],
-      });
-      await updateData("userData", uid, {
-        likedTweets: [...userRef.likedTweets, tweet.id],
-      });
-    } else {
-      //Filtrado de las listas para borrar el tuit y el usuario
-
-      const filteredLikes = docRef.likedBy.filter((object) => {
-        return object !== uid;
-      });
-      const filteredUser = userRef.likedTweets.filter((object) => {
-        return object !== tweet.id;
-      });
-      //Caso positivo borra el usuario del tuit y viceversa
-
-      await updateData("tuits", tweet.id, {
-        likes: tweet.likes - 1,
-        likedBy: filteredLikes,
-      });
-      await updateData("userData", uid, {
-        likedTweets: filteredUser,
-      });
-    }
-  };
-
   //Manejo del estado del tweet
 
   const handleTweet = (e) => {
     setTweet(e.target.value);
+  };
+
+  //Manejo del like
+
+  const localHandleLike = (tweet) => {
+    globalHandleLike(tweet);
   };
 
   return (
@@ -187,7 +148,7 @@ export default function Feed() {
                       undefined ? (
                         <img
                           onClick={() => {
-                            handleLike(object);
+                            localHandleLike(object);
                           }}
                           className="like-hollow-icon"
                           height="17px"
@@ -197,7 +158,7 @@ export default function Feed() {
                       ) : (
                         <img
                           onClick={() => {
-                            handleLike(object);
+                            localHandleLike(object);
                           }}
                           className="like-hollow-icon"
                           height="17px"

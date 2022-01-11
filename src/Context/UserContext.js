@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { addUserToFirestore, handleAuthChange } from "../Services/Auth";
-import { getDataByID, updateData } from "../Services/operations";
+import { updateData } from "../Services/operations";
 
 export const userContext = createContext();
 

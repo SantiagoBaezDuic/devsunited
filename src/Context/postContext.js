@@ -1,13 +1,16 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useContext } from "react";
 import usePost from "../Hooks/usePost";
 import { options } from "./config";
-import { deleteTweet } from "../Services/operations";
+import { deleteTweet, getDataByID, updateData } from "../Services/operations";
+import { userContext } from "../Context/UserContext";
 
 export const postContext = createContext();
 
 export default function PostProvider({ children }) {
   const fetchedPosts = usePost();
   const [posts, setPosts] = useState([]);
+
+  const { user } = useContext(userContext);
 
   useEffect(() => {
     const posts = fetchedPosts.sort((a, b) => {
@@ -35,8 +38,56 @@ export default function PostProvider({ children }) {
     deleteTweet("tuits", id);
   };
 
+  // Manejo de Likes
+
+  const globalHandleLike = async (tweet) => {
+    const uid = user.uid;
+
+    //Referencia del doc del tuit
+
+    const docRef = await getDataByID("tuits", tweet.id);
+
+    //Referencia del doc del usuario
+
+    const userRef = await getDataByID("userData", uid);
+
+    //Chequea si el tuit está likeado por el usuario logeado
+
+    if (docRef.likedBy.find((object) => object === uid) === undefined) {
+      //Caso negativo agrega el usuario al tuit y viceversa
+
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes + 1,
+        likedBy: [...docRef.likedBy, uid],
+      });
+      await updateData("userData", uid, {
+        likedTweets: [...userRef.likedTweets, tweet.id],
+      });
+    } else {
+      //Filtrado de las listas para borrar el tuit y el usuario
+
+      const filteredLikes = docRef.likedBy.filter((object) => {
+        return object !== uid;
+      });
+      const filteredUser = userRef.likedTweets.filter((object) => {
+        return object !== tweet.id;
+      });
+      //Caso positivo borra el usuario del tuit y viceversa
+
+      await updateData("tuits", tweet.id, {
+        likes: tweet.likes - 1,
+        likedBy: filteredLikes,
+      });
+      await updateData("userData", uid, {
+        likedTweets: filteredUser,
+      });
+    }
+  };
+
   return (
-    <postContext.Provider value={{ posts, convertTime, handleDelete }}>
+    <postContext.Provider
+      value={{ posts, convertTime, handleDelete, globalHandleLike }}
+    >
       {children}
     </postContext.Provider>
   );

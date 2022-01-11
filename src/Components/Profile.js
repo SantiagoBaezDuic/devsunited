@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
 import { userContext } from "../Context/UserContext";
-import { getDataByID, updateData } from "../Services/operations";
 
 export default function Profile() {
-  const { posts, convertTime, handleDelete } = useContext(postContext);
+  const { posts, convertTime, handleDelete, globalHandleLike } =
+    useContext(postContext);
   const { user, favColor, photo, userColor, bgColor } = useContext(userContext);
 
   const [showPosts, setShowPosts] = useState(true);
@@ -36,54 +36,16 @@ export default function Profile() {
     return object.likedBy.find((element) => element === user.uid) !== undefined;
   });
 
-  // Manejo de Likes
-
-  const handleLike = async (tweet) => {
-    const uid = user.uid;
-
-    //Referencia del doc del tuit
-
-    const docRef = await getDataByID("tuits", tweet.id);
-
-    //Referencia del doc del usuario
-
-    const userRef = await getDataByID("userData", uid);
-
-    //Chequea si el tuit está likeado por el usuario logeado
-
-    if (docRef.likedBy.find((object) => object === uid) === undefined) {
-      //Caso negativo agrega el usuario al tuit y viceversa
-
-      await updateData("tuits", tweet.id, {
-        likes: tweet.likes + 1,
-        likedBy: [...docRef.likedBy, uid],
-      });
-      await updateData("userData", uid, {
-        likedTweets: [...userRef.likedTweets, tweet.id],
-      });
-    } else {
-      //Filtrado de las listas para borrar el tuit y el usuario
-
-      const filteredLikes = docRef.likedBy.filter((object) => {
-        return object !== uid;
-      });
-      const filteredUser = userRef.likedTweets.filter((object) => {
-        return object !== tweet.id;
-      });
-      //Caso positivo borra el usuario del tuit y viceversa
-
-      await updateData("tuits", tweet.id, {
-        likes: tweet.likes - 1,
-        likedBy: filteredLikes,
-      });
-      await updateData("userData", uid, {
-        likedTweets: filteredUser,
-      });
-    }
-  };
+  //Signout
 
   const handleSignOut = () => {
     signOut();
+  };
+
+  //Manejo del like
+
+  const localHandleLike = (tweet) => {
+    globalHandleLike(tweet);
   };
 
   return (
@@ -175,7 +137,7 @@ export default function Profile() {
                         ) === undefined ? (
                           <img
                             onClick={() => {
-                              handleLike(object);
+                              localHandleLike(object);
                             }}
                             className="like-hollow-icon"
                             height="17px"
@@ -185,7 +147,7 @@ export default function Profile() {
                         ) : (
                           <img
                             onClick={() => {
-                              handleLike(object);
+                              localHandleLike(object);
                             }}
                             className="like-hollow-icon"
                             height="17px"
@@ -240,7 +202,7 @@ export default function Profile() {
                         ) === undefined ? (
                           <img
                             onClick={() => {
-                              handleLike(object);
+                              localHandleLike(object);
                             }}
                             className="like-hollow-icon"
                             height="17px"
@@ -250,7 +212,7 @@ export default function Profile() {
                         ) : (
                           <img
                             onClick={() => {
-                              handleLike(object);
+                              localHandleLike(object);
                             }}
                             className="like-hollow-icon"
                             height="17px"
