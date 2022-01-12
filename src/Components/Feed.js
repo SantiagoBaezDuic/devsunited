@@ -10,7 +10,7 @@ import { userContext } from "../Context/UserContext";
 export default function Feed() {
   const { posts, convertTime, handleDelete, globalHandleLike } =
     useContext(postContext);
-  const { user, favColor, photo, bgColor } = useContext(userContext);
+  const { user, favColor, photo, bgColor, username } = useContext(userContext);
 
   //Manejo del estado del tuit input y la barra
 
@@ -23,6 +23,7 @@ export default function Feed() {
   const postTweet = async () => {
     const dataToPost = {
       user: user.displayName,
+      username: username,
       text: tweet,
       time: new Date().getTime(),
       likes: 0,
@@ -135,7 +136,9 @@ export default function Feed() {
                 <div className="post-text-container">
                   <div className="post-username">
                     <span className={"username-container " + bgColor}>
-                      {object.user}
+                      {object.username && object.username !== ""
+                        ? object.username
+                        : object.user}
                     </span>
                     <span className="post-time">
                       - {convertTime(object.time)}

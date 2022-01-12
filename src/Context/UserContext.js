@@ -12,12 +12,14 @@ export default function UserProvider({ children }) {
   const [userColor, setUserColor] = useState("pinkyUser");
   const [bgColor, setBGColor] = useState("pinkyBG");
 
-  useEffect(async () => {
-    const unsubscribe = handleAuthChange((user) => {
+  useEffect(() => {
+    const unsubscribe = handleAuthChange(async (user) => {
       if (user) {
-        addUserToFirestore(user);
+        const config = await addUserToFirestore(user);
         setUser(user);
         setPhoto(user.photoURL);
+        setFavColor(config.favColor);
+        setUsername(config.username);
       } else {
         setUser(null);
       }
@@ -37,17 +39,6 @@ export default function UserProvider({ children }) {
       });
     }
   };
-
-  // const getConfig = async () => {
-  //   if (user) {
-  //     const config = await getDataByID("userData", user.uid);
-  //     console.log(config);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getConfig();
-  // }, []);
 
   //Cambiar el color de la app
 

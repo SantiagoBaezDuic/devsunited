@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { postContext } from "../Context/postContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../CSS/Profile.css";
 import { signOut } from "../Services/Auth";
 import { userContext } from "../Context/UserContext";
@@ -8,9 +8,12 @@ import { userContext } from "../Context/UserContext";
 export default function Profile() {
   const { posts, convertTime, handleDelete, globalHandleLike } =
     useContext(postContext);
-  const { user, favColor, photo, userColor, bgColor } = useContext(userContext);
+  const { user, favColor, photo, userColor, bgColor, username } =
+    useContext(userContext);
 
   const [showPosts, setShowPosts] = useState(true);
+
+  const navigate = useNavigate();
 
   //Manejo del booleano que decide si se muestran los tweets propios o los faveados
 
@@ -38,8 +41,9 @@ export default function Profile() {
 
   //Signout
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
   };
 
   //Manejo del like
@@ -60,13 +64,8 @@ export default function Profile() {
               <span className="press-start">FEED</span>
             </div>
             <Link to="/">
-              <div className="logout-button">
-                <span
-                  onClick={handleSignOut}
-                  className="press-start logout-text"
-                >
-                  LOGOUT
-                </span>
+              <div onClick={handleSignOut} className="logout-button">
+                <span className="press-start logout-text">LOGOUT</span>
                 <img height="20px" src="./img/logout.svg" alt="" />
               </div>
             </Link>
@@ -86,7 +85,7 @@ export default function Profile() {
               />
             </Link>
             <h1 className={"press-start username " + userColor}>
-              {user !== null ? user.displayName : "Username"}
+              {username !== "" ? username : user}
             </h1>
           </div>
           <div className="profile-switch-container">
@@ -123,7 +122,9 @@ export default function Profile() {
                   <div className="post-text-container">
                     <div className="post-username">
                       <span className={"username-container " + bgColor}>
-                        {object.user}
+                        {object.username && object.username !== ""
+                          ? object.username
+                          : object.user}
                       </span>
                       <span className="post-time">
                         - {convertTime(object.time)}
@@ -188,7 +189,9 @@ export default function Profile() {
                   <div className="post-text-container">
                     <div className="post-username">
                       <span className={"username-container " + bgColor}>
-                        {object.user}
+                        {object.username && object.username !== ""
+                          ? object.username
+                          : object.user}
                       </span>
                       <span className="post-time">
                         - {convertTime(object.time)}

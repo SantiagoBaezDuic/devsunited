@@ -41,11 +41,10 @@ export default function Welcome() {
           </div>
           <div className="home-login-container">
             <h2 className="press-start title">
-              Welcome <br />
+              Welcome! <br />
               <span className={"name " + userColor}>
-                {username !== "" ? username : "Name"}
+                {username !== "" ? username : null}
               </span>
-              <span>!</span>
             </h2>
             <input
               onChange={handleUsername}

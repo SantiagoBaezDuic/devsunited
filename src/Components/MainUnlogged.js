@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-// import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { userContext } from "../Context/UserContext";
 import "../CSS/Login.css";
 import "../CSS/MainUnlogged.css";
@@ -8,9 +8,13 @@ import { signIn } from "../Services/Auth";
 export default function Unlogged() {
   const { user } = useContext(userContext);
 
-  if (user != null) {
-    window.location.replace("/welcome");
-  }
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/welcome");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="App">

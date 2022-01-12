@@ -19,9 +19,7 @@ export const signIn = async () => {
 };
 
 export const signOut = async () => {
-  _signOut(auth)
-    .then(console.log("signout successful"))
-    .catch((error) => console.log(error));
+  await _signOut(auth).catch((error) => console.error(error));
 };
 
 export const handleAuthChange = (callback) => {
@@ -39,5 +37,7 @@ export const addUserToFirestore = async (user) => {
       photo: photoURL,
       likedTweets: [],
     });
+  } else {
+    return userExists;
   }
 };
