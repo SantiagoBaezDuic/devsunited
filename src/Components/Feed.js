@@ -187,7 +187,6 @@ export default function Feed() {
         ) : (
           <p className="press-start loading">Posts are loading...</p>
         )}
-        {/* <Link to="/">Login</Link> */}
       </div>
     </>
   );

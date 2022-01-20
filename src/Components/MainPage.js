@@ -76,9 +76,6 @@ export default function Welcome() {
             <span className="copyright">
               © 2021 Devs United - <span className="highlight">BETA</span>
             </span>
-            {/* <Link to="/">Login</Link>
-            <Link to="/profile">Perfil</Link>
-            <Link to="/feed">Feed</Link> */}
           </div>
         </header>
       </div>

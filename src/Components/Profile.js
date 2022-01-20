@@ -238,8 +238,6 @@ export default function Profile() {
                 </div>
               );
             })}
-        {/* <Link to="/">Login</Link>
-        <Link to="/welcome">Color</Link> */}
       </div>
     </>
   );

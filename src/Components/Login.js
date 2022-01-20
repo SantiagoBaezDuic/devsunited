@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
 import "../CSS/Login.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Services/firebase";
@@ -15,8 +14,6 @@ export default function Login() {
     setError("");
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in
-        // const user = userCredential.user;
         window.location.replace("/welcome");
       })
       .catch((error) => {
@@ -72,8 +69,6 @@ export default function Login() {
           <span className="copyright">
             © 2021 Devs United - <span className="highlight">BETA</span>
           </span>
-          {/* <Link to="/welcome">Logged</Link>
-          <Link to="/">Unlogged</Link> */}
         </div>
       </header>
     </div>

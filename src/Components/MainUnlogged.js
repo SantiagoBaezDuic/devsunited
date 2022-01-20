@@ -31,13 +31,6 @@ export default function Unlogged() {
           <p className="press-start subtext">
             The place to share with your fellow developers.
           </p>
-          {/* <Link className="register-link" to="/register">
-            <button className="login-btn">SIGN IN</button>
-          </Link>
-          <Link className="register-link" to="/login">
-            <button className="login-btn">LOG IN</button>
-          </Link>
-          <span className="press-start little">or</span> */}
           <img
             onClick={signIn}
             className="google-login"
@@ -48,7 +41,6 @@ export default function Unlogged() {
           <span className="copyright">
             © 2021 Devs United - <span className="highlight">BETA</span>
           </span>
-          {/* <Link to="/welcome">Logged</Link> */}
         </div>
       </header>
     </div>
