@@ -9,6 +9,7 @@ export const postContext = createContext();
 export default function PostProvider({ children }) {
   const fetchedPosts = usePost();
   const [posts, setPosts] = useState([]);
+  const [showPosts, setShowPosts] = useState(true);
 
   const { user } = useContext(userContext);
 
@@ -84,9 +85,52 @@ export default function PostProvider({ children }) {
     }
   };
 
+  //Manejo del booleano que decide si se muestran los tweets propios o los faveados
+
+  const handlePosts = () => {
+    setShowPosts(true);
+  };
+
+  const handleFavs = () => {
+    setShowPosts(false);
+  };
+
+  //Filtrado de tweets
+
+  //Propios
+
+  let ownPosts = posts.filter((object) => {
+    let own = [];
+    if (user) {
+      own = object.uid === user.uid;
+    }
+    return own;
+  });
+
+  //Faveados
+
+  let likedPosts = posts.filter((object) => {
+    let liked = [];
+    if (user) {
+      liked =
+        object.likedBy.find((element) => element === user.uid) !== undefined;
+    }
+    return liked;
+  });
+
   return (
     <postContext.Provider
-      value={{ posts, convertTime, handleDelete, globalHandleLike }}
+      value={{
+        posts,
+        likedPosts,
+        ownPosts,
+        convertTime,
+        handleDelete,
+        globalHandleLike,
+        handlePosts,
+        handleFavs,
+        showPosts,
+      }}
     >
       {children}
     </postContext.Provider>

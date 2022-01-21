@@ -97,7 +97,7 @@
 
 .feed {
     background-color: #2E132C;
-    min-height: 800px;
+    min-height: 100vh;
     border-top: 3px solid #592455;
     display: flex;
     flex-direction: column;
@@ -160,4 +160,78 @@
 
 .purpleBG {
     background-color: #800fff;
+}
+
+@media screen and (max-width: 400px){
+    .header-container{
+        width: 100%;
+    }
+    
+    .feed-header{
+        height: 40px;
+    }
+
+    #pfp{
+        width: 0px;
+        visibility: hidden;
+    }
+
+    #large-icon{
+        width: 0px;
+        visibility: hidden;
+    }
+
+    .tweeter-container{
+        width: 85%;
+    }
+
+    .tweeter-input-container{
+        display: flex;
+        align-items: flex-end;
+        width: 10   0%;
+    }
+
+    .tweeter-input{
+        width: 75%;
+    }
+
+    .tweeter-subtext{
+        width: 80%;
+    }
+
+    .post-button{
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 401px){
+    .header-container{
+        width: 90%;
+    }
+    
+    .feed-header{
+        height: 40px;
+    }
+
+    .tweeter-container{
+        width: 80%;
+    }
+
+    .tweeter-input-container{
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+    }
+
+    .tweeter-input{
+        width: 75%;
+    }
+
+    .tweeter-subtext{
+        width: 77%;
+    }
+
+    .post-button{
+        width: auto;
+    }
 }

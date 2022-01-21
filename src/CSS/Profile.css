@@ -172,3 +172,15 @@
 .purpleBG {
     background-color: #800fff;
 }
+
+@media screen and (max-width: 400px) {
+    .profile-center{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 401px){
+    .profile-center{
+        width: 100%;
+    }
+}

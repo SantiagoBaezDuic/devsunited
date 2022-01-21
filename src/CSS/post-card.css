@@ -77,3 +77,25 @@
     color: #c552bd;
     text-decoration: underline;
 }
+
+@media screen and (max-width: 400px){
+    .post-card{
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .post-text-container{
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 401px){
+    .post-card{
+        width: 70%;
+        justify-content: space-around;
+    }
+
+    .post-text-container{
+        width: 75%;
+    }
+}

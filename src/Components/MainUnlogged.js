@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../Context/UserContext";
-import "../CSS/Login.css";
+import "../CSS/MainPage.css";
 import "../CSS/MainUnlogged.css";
 import { signIn } from "../Services/Auth";
 
@@ -20,8 +20,18 @@ export default function Unlogged() {
     <div className="App">
       <header className="App-header">
         <div className="logos-container">
-          <img width="500px" src="./img/Logo.svg" alt="" />
-          <img width="500px" src="./img/Logotexto.svg" alt="" />
+          <img
+            className="main-logos"
+            width="500px"
+            src="./img/Logo.svg"
+            alt=""
+          />
+          <img
+            className="main-logos"
+            width="500px"
+            src="./img/Logotexto.svg"
+            alt=""
+          />
         </div>
         <div className="home-login-container">
           <h2 className="press-start title">
