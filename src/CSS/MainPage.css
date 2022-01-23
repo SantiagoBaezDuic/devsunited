@@ -116,6 +116,8 @@
     .logos-container{
         flex-direction: column;
         height: 100px;
+        margin-bottom: 20%;
+        margin-top: 5%;
     }
 
     .main-logos{
