@@ -4,12 +4,14 @@ import "../CSS/Profile.css";
 import TweetCard from "./TweetCard";
 import ProfileHeader from "./ProfileHeader";
 import UserDisplay from "./UserDisplay";
+import Overlay from "./Overlay";
 
 export default function Profile() {
-  const { showPosts, ownPosts, likedPosts } = useContext(postContext);
+  const { showPosts, ownPosts, likedPosts, confirm } = useContext(postContext);
 
   return (
     <>
+      {confirm ? <Overlay /> : null}
       <ProfileHeader />
       <UserDisplay />
       <div className="feed">

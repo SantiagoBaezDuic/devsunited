@@ -5,12 +5,14 @@ import { postContext } from "../Context/postContext";
 import TweetCard from "./TweetCard";
 import FeedHeader from "./FeedHeader";
 import TweetInput from "./TweetInput";
+import Overlay from "./Overlay";
 
 export default function Feed() {
-  const { posts } = useContext(postContext);
+  const { posts, confirm } = useContext(postContext);
 
   return (
     <>
+      {confirm ? <Overlay /> : null}
       <FeedHeader />
       <TweetInput />
       <div className="feed">

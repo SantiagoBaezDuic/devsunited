@@ -4,13 +4,20 @@ import { postContext } from "../Context/postContext";
 
 export default function TweetCard({ object }) {
   const { user, photo, favColor, bgColor } = useContext(userContext);
-  const { convertTime, handleDelete, globalHandleLike } =
+  const { convertTime, setToDelete, globalHandleLike, setConfirm } =
     useContext(postContext);
 
   //Manejo del like
 
   const localHandleLike = (tweet) => {
     globalHandleLike(tweet);
+  };
+
+  //Manejo del tweet delete
+  const handleDeleteButton = (id) => {
+    setConfirm(true);
+    setToDelete(id);
+    console.log(id);
   };
 
   return (
@@ -69,7 +76,7 @@ export default function TweetCard({ object }) {
           {object.uid === user.uid ? (
             <div
               className="delete-button"
-              onClick={() => handleDelete(object.id)}
+              onClick={() => handleDeleteButton(object.id)}
             >
               Borrar
             </div>

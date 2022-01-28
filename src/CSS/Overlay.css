@@ -1,0 +1,64 @@
+.overlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    min-width: 100%;
+    background-color: rgba(0, 0, 0, 0.308);
+}
+
+.confirm-container {
+    background-color: #60265B;
+    height: 200px;
+    width: 400px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 15px 0px;
+    justify-content: space-around;
+    position: fixed;
+    top: 50%;
+    margin-left: -200px;
+    left: 50%;
+    margin-top: -100px;
+}
+
+.btn-container {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.erase-btn {
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    background-color: #2f112d;
+    height: 25px;
+    width: auto;
+    margin: 10px 0;
+    border: 0;
+}
+
+.cancel-btn {
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    background-color: #571853;
+    height: 25px;
+    width: auto;
+    margin: 10px 0;
+    border: 0;
+}
+
+.erase-btn:hover {
+    border: 2px solid white;
+    background-color: #582855;
+}
+
+.cancel-btn:hover {
+    border: 2px solid white;
+    background-color: #752a70;
+}

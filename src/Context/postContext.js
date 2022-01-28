@@ -10,6 +10,8 @@ export default function PostProvider({ children }) {
   const fetchedPosts = usePost();
   const [posts, setPosts] = useState([]);
   const [showPosts, setShowPosts] = useState(true);
+  const [confirm, setConfirm] = useState(false);
+  const [toDelete, setToDelete] = useState("");
 
   const { user } = useContext(userContext);
 
@@ -130,6 +132,10 @@ export default function PostProvider({ children }) {
         handlePosts,
         handleFavs,
         showPosts,
+        confirm,
+        setConfirm,
+        toDelete,
+        setToDelete,
       }}
     >
       {children}
